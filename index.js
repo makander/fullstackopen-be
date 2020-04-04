@@ -81,11 +81,11 @@ app.post('/api/person', (req, res, next) => {
     number,
   });
 
-
   newPerson
     .save()
-    .then((savedUser) => res.json(savedUser.toJSON()))
-    .catch((error) => next(error));
+    .then(savedUser => savedUser.toJSON())
+    .then(formatted => res.json(formatted))
+    .catch(error => next(error));
 });
 
 app.put('/api/person/:id', async (req, res) => {

@@ -1,18 +1,25 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const url = process.env.MONGODB_URI;
-
+const uniqueValidator = require('mongoose-unique-validator');
 console.log('connecting to: ', url);
 
 mongoose
-  .connect(url, { useNewUrlParser: true })
+  .connect(url, { useNewUrlParser: true,   useUnifiedTopology: true, useCreateIndex: true  })
   .then((result) => console.log('connected to MongoAtlas'))
-  .catch((error) => console.log(error));
+  .catch((error) => console.log('MONGOOSE ERRROR',error));
 
 const personSchema = new Schema({
-  name: { type: String  },
-  number: { type: String },
+  name: {
+    type: String,
+    minlength: 3,
+  unique: true},
+  number: {
+    type: String,
+  minlength: 8},
 });
+
+personSchema.plugin(uniqueValidator)
 
 personSchema.set('toJSON', {
   transform: (document, returnedObject) => {
